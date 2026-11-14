@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Inventario de libros</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/biblioteca.css">
+  <script src="/biblioteca.js" defer></script>
+</head>
+<body>
+  <header class="top">
+    <div class="wrap">
+      <a class="mark" href="/"><span class="icono-libro" aria-hidden="true"></span> API.LIBROS</a>
+      <nav aria-label="Enlaces">
+        <span id="estado" class="estado" role="status"><i aria-hidden="true"></i><span>Sesión cerrada</span></span>
+        <a id="enlace-endpoints" href="#endpoints" hidden>Endpoints</a>
+        <a href="/swagger/index.html">Swagger</a>
+      </nav>
+    </div>
+  </header>
+  <main class="wrap">
+    <section class="head">
+      <div>
+        <h1>Inventario de libros</h1>
+        <p class="lead">Inicia sesión para consultar y administrar el inventario.</p>
+        <div id="estadisticas" class="estadisticas" hidden>
+          <p><b id="total">—</b> Títulos registrados</p>
+          <p><b id="existencias">—</b> Ejemplares en inventario</p>
+        </div>
+      </div>
+      <div class="card">
+        <form id="login" class="pila">
+          <div><h2>Iniciar sesión</h2><p class="sub">Correo de evaluación <strong>evaluacion@example.test</strong></p></div>
+          <label class="campo">Correo<input name="correo" type="email" maxlength="254" autocomplete="username" value="evaluacion@example.test" required></label>
+          <label class="campo">Contraseña<input name="contrasena" type="password" maxlength="128" autocomplete="current-password" required></label>
+          <button class="btn btn-p" type="submit">Iniciar sesión</button>
+        </form>
+        <div id="sesion" class="pila" hidden>
+          <div><h2>Sesión activa</h2><p id="correo-activo" class="sub"></p></div>
+          <button class="btn btn-s" id="salir" type="button">Cerrar sesión</button>
+        </div>
+        <p id="error-login" class="aviso err" role="alert" hidden></p>
+      </div>
+    </section>
+    <section id="panel-libros" class="panel" hidden aria-labelledby="t-libros">
+      <div class="barra">
+        <h2 id="t-libros">Libros</h2>
+        <label class="campo">Buscar en la lista<input id="filtro" type="search" placeholder="Título o autor" autocomplete="off"></label>
+        <form class="buscar-id" id="form-id">
+          <label class="campo">Consultar por ID<input name="id" type="number" min="1" max="2147483647" placeholder="Ej. 1" required></label>
+          <button class="btn btn-s" type="submit">Consultar</button>
+        </form>
+        <button class="btn btn-p" id="nuevo" type="button" disabled>＋ Agregar libro</button>
+      </div>
+      <p id="aviso" class="aviso" role="status" hidden></p>
+      <div id="ficha" class="ficha" hidden></div>
+      <div id="tabla"></div>
+      <div class="consola" aria-live="polite">
+        <div class="linea"><strong>Última respuesta de la API</strong></div>
+        <div id="consola"><p class="vacio">Esperando la primera consulta…</p></div>
+      </div>
+    </section>
+    <section class="endpoints" hidden id="endpoints" aria-labelledby="t-endpoints">
+      <h2 id="t-endpoints">Endpoints de la API</h2>
+      <p>Abre una ruta para ver el código de respuesta y un ejemplo de solicitud.</p>
+      <div id="lista-endpoints"></div>
+    </section>
+  </main>
+  <dialog id="editor" aria-labelledby="editor-titulo">
+    <form id="form-libro">
+      <div class="dlg-cab"><h2 id="editor-titulo">Agregar libro</h2></div>
+      <div class="dlg-cuerpo">
+        <label class="campo full">Título<input name="titulo" maxlength="160" required></label>
+        <label class="campo full">Autor<input name="autor" maxlength="120" required></label>
+        <label class="campo">Año de publicación<input name="anioPublicacion" type="number" min="1" max="9999" required></label>
+        <label class="campo">Existencias<input name="existencias" type="number" min="0" max="2147483647" required></label>
+        <p id="error-editor" class="aviso err full" role="alert" hidden></p>
+      </div>
+      <div class="dlg-pie">
+        <button class="btn btn-s" data-cerrar type="button">Cancelar</button>
+        <button class="btn btn-p" type="submit">Guardar libro</button>
+      </div>
+    </form>
+  </dialog>
+  <dialog id="borrar" aria-labelledby="borrar-titulo">
+    <form id="form-borrar">
+      <div class="dlg-cab"><h2 id="borrar-titulo">Eliminar libro</h2><p id="borrar-detalle"></p></div>
+      <div class="dlg-cuerpo"><p id="error-borrar" class="aviso err full" role="alert" hidden></p></div>
+      <div class="dlg-pie">
+        <button class="btn btn-s" data-cerrar type="button">Cancelar</button>
+        <button class="btn btn-d" type="submit">Eliminar libro</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>
